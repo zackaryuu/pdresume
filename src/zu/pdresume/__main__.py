@@ -1,9 +1,19 @@
 import os
+import sys
 import click
-from zu.pdresume.utils import build
+from zu.pdresume.utils import build, run_detached
 
 PATH = os.path.join(os.path.expanduser("~"), ".zu", "mods", "pdresume")
-os.makedirs(PATH, exist_ok=True)
+CURR_FILE_LOCATION = os.path.abspath(__file__)
+try:
+    POSSIBLE_PRESET_LOC = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(CURR_FILE_LOCATION))))
+    assert os.path.exists(os.path.join(POSSIBLE_PRESET_LOC, "preset"))
+    PATH = POSSIBLE_PRESET_LOC
+except Exception:
+    POSSIBLE_PRESET_LOC = None
+
+print(POSSIBLE_PRESET_LOC)
+#os.makedirs(PATH, exist_ok=True)
 
 
 @click.group()
@@ -13,6 +23,11 @@ def cli():
 
 @cli.command()
 def update():
+    if POSSIBLE_PRESET_LOC is not None:
+        # this means it is installed as a zu component, should simply use the standard zu update mechanism
+        run_detached(["zu", "update", "pdresume"])
+        sys.exit(0)
+
     currdir = os.getcwd()
     os.chdir(PATH)
     try:

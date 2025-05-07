@@ -3,7 +3,8 @@ import toml
 import yaml
 import shutil
 from zuu.api.kv import parse_document
-
+import subprocess
+import platform
 
 def build_input_md(toml_path):
     with open(toml_path, "r") as f:
@@ -139,3 +140,13 @@ def build_cd(meta: dict, run_profiles: list[str]):
         output = [output]
 
     return output
+
+
+
+def run_detached(cmd, pkg_path=None):
+    # On Windows, use DETACHED_PROCESS flag
+    if platform.system() == "Windows":
+        subprocess.Popen(cmd, cwd=pkg_path, creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP)
+    # On Unix-like systems, use nohup
+    else:
+        subprocess.Popen(["nohup"] + cmd, cwd=pkg_path, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
