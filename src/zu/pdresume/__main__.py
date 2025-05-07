@@ -19,7 +19,9 @@ def update():
     os.chdir(PATH)
     try:
         if not os.path.exists(".git"):
-            os.system("git clone https://github.com/zackaryuu/pdresume.git .")
+            os.system("git init")
+            os.system("git remote add origin https://github.com/zackaryuu/pdresume.git")
+            os.system("git checkout -b main")
         sparse_checkout(
             "https://github.com/zackaryuu/pdresume.git", ["profiles", "preset"]
         )
