@@ -13,21 +13,19 @@ def cli():
 
 @cli.command()
 def update():
-    from zuu.main.git import sparse_checkout
-
     currdir = os.getcwd()
     os.chdir(PATH)
     try:
         if not os.path.exists(".git"):
             os.system("git init")
             os.system("git remote add origin https://github.com/zackaryuu/pdresume.git")
-            os.system("git checkout -b main")
-        sparse_checkout(
-            "https://github.com/zackaryuu/pdresume.git", ["profiles", "preset"]
-        )
+            
+        # Set up sparse checkout directly
+        os.system("git sparse-checkout init --cone")
+        os.system("git sparse-checkout set profiles preset")
+            
         os.system("git fetch origin")
-        os.system("git branch --set-upstream-to=origin/main main")
-        os.system("git pull")
+        os.system("git reset --hard origin/main")
     except Exception as e:
         click.echo(f"Error updating pdresume: {e}")
     finally:
