@@ -1,0 +1,14 @@
+[std]
+output = "output.tex"
+from = "markdown"
+to = "latex"
+template = "template.tex"
+
+[pdf]
+post = [
+    "print('building pdf...')",
+    "os.system(f'xelatex -interaction=nonstopmode output.tex -include-directory=\"{THIS_DIR}\"')",
+    "print('pdf built')",
+]
+output_replace = "output.pdf"
+

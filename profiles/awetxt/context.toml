@@ -1,0 +1,13 @@
+[std]
+from = "markdown"
+to = "plain"
+template = "template.txt"
+output = "output.txt"
+pre = [
+    "print('building txt...')",
+]
+post = [
+    "print('txt built')",
+]
+
+
