@@ -31,18 +31,18 @@ def build(
 ):
     assert os.path.exists(path), "path does not exist"
     assert os.path.exists(data_toml), "data_toml does not exist"
-    debug = False
+    bugged = False
     assert "std" not in run_profiles, "std profile is not allowed to be run"
 
     curr_cd = os.getcwd()
 
     # copy preset to cd path
-    shutil.copytree(path, os.path.join(curr_cd, os.path.basename(path)))
+    shutil.copytree(path, os.path.join(curr_cd, "debug"))
 
-    shutil.copy(data_toml, os.path.join(curr_cd, os.path.basename(path), "data.toml"))
+    shutil.copy(data_toml, os.path.join(curr_cd, "debug", "data.toml"))
 
     # change to new path
-    os.chdir(os.path.join(curr_cd, os.path.basename(path)))
+    os.chdir(os.path.join(curr_cd, "debug"))
 
     context = toml.load("context.toml")
 
@@ -78,7 +78,7 @@ def build(
                 shutil.copy(file, os.path.join(curr_cd, os.path.basename(file)))
         os.chdir(curr_cd)
         if not bugged and not debug:
-            shutil.rmtree(os.path.join(curr_cd, os.path.basename(path)))
+            shutil.rmtree(os.path.join(curr_cd, "debug"))
 
 
 PANDOC_COMMAND = 'pandoc input.md -o {OUTPUT_FILE} -f {FROM_TYPE} -t {TO_TYPE} --template="{TEMPLATE_PATH}"'

@@ -48,7 +48,7 @@ def awetex(ctx, data, output, debug, on_error_debug, profile):
         data = os.path.join(PATH, "preset", "example.toml")
 
     build(
-        os.getcwd(),
+        os.path.join(PATH, "profiles", "awetex"),
         data,
         profile,
         output_dir=output,
@@ -73,7 +73,7 @@ def awetxt(ctx, data, output, debug, on_error_debug, profile):
 
 
     build(
-        os.getcwd(),
+        os.path.join(PATH, "profiles", "awetxt"),
         data,
         profile,
         output_dir=output,
@@ -82,8 +82,8 @@ def awetxt(ctx, data, output, debug, on_error_debug, profile):
     )
 
 @cli.command()
+@click.argument("path", type=str)
 @click.option("--data", type=str, default="data.toml")
-@click.option("--path", type=str, default=os.getcwd())
 @click.option("--output", type=click.Path(), default=None)
 @click.option("--debug", is_flag=True)
 @click.option("--on-error-debug", is_flag=True)
@@ -103,8 +103,7 @@ def gen(path, output, debug, on_error_debug, profile, data):
     )
 
 if __name__ == "__main__":
-    import sys
-    sys.argv.append("awetex")
-
+    #import sys
+    #sys.argv.extend(["awetex", "--profile", "pdf"])
     cli()
 
