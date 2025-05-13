@@ -12,13 +12,13 @@ try:
 except Exception:
     POSSIBLE_PRESET_LOC = None
 
-print(POSSIBLE_PRESET_LOC)
+#print(POSSIBLE_PRESET_LOC)
 #os.makedirs(PATH, exist_ok=True)
 
 
-@click.group()
+@click.group(invoke_without_command=True)
 def cli():
-    pass
+    os.chdir(os.environ["ZU_ACTUAL_CWD"])
 
 
 @cli.command()
@@ -104,7 +104,6 @@ def awetxt(ctx, data, output, debug, on_error_debug, profile):
 @click.option("--on-error-debug", is_flag=True)
 @click.option("-p", "--profile", type=str, multiple=True)
 def gen(path, output, debug, on_error_debug, profile, data):
-
     if not data or not os.path.exists(data):
         data = os.path.join(PATH, "preset", "example.toml")
 
