@@ -37,6 +37,9 @@ def build(
 
     curr_cd = os.getcwd()
 
+    if os.path.exists(os.path.join(curr_cd, "debug")):
+        shutil.rmtree(os.path.join(curr_cd, "debug"))
+
     # copy preset to cd path
     shutil.copytree(path, os.path.join(curr_cd, "debug"))
 
