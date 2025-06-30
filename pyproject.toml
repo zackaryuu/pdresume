@@ -30,4 +30,4 @@ allow-direct-references = true
 packages = ["src/zu"]
 
 [project.scripts]
-zu-pdresume = "zu.pdresume.__main__:cli"
+zu.pdresume = "zu.pdresume.__main__:cli"
